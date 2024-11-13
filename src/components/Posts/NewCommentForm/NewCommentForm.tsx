@@ -2,10 +2,10 @@ import cn from 'classnames';
 import { Comment } from '../../../types/Comment';
 import { useCommentForm } from '../../../hooks/useCommentForm';
 
-interface NewCommentForm {
+interface NewCommentFormProps {
   handleAddComment: (comment: Omit<Comment, 'id'>) => void;
 }
-export const NewCommentForm: React.FC<NewCommentForm> = ({
+export const NewCommentForm: React.FC<NewCommentFormProps> = ({
   handleAddComment,
 }) => {
   const {

@@ -10,13 +10,15 @@ interface PostListItemProps {
 const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
   const { selectedPost, setSelectedPost } = useContext(PostsContext);
 
-  const handleSelectPost = (post: Post) => {
-    if (post.id === selectedPost?.id) {
+  const handleSelectPost = (highlightedPost: Post) => {
+    if (highlightedPost.id === selectedPost?.id) {
       setSelectedPost(null);
+
       return;
     }
     setSelectedPost(post);
   };
+
   return (
     <>
       <td data-cy="PostId">{post.id}</td>
