@@ -33,8 +33,6 @@ export const Posts = () => {
     return null;
   };
 
-  const PostView = getPostview();
-
   return (
     <main className="section">
       <div className="container">
@@ -52,7 +50,7 @@ export const Posts = () => {
 
                 {isLoadingPosts && <Loader />}
 
-                {PostView && PostView}
+                {getPostview()}
               </div>
             </div>
           </div>

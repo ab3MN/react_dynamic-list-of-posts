@@ -9,6 +9,7 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
+  // eslint-disable-next-line
   constructor(props: Props) {
     super(props);
   }

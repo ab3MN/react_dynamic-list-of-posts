@@ -7,7 +7,7 @@ interface PostListItemProps {
   post: Post;
 }
 
-export const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
+const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
   const { selectedPost, setSelectedPost } = useContext(PostsContext);
 
   const handleSelectPost = (post: Post) => {
@@ -38,3 +38,7 @@ export const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
     </>
   );
 });
+
+PostListItem.displayName = 'PostListItem';
+
+export { PostListItem };

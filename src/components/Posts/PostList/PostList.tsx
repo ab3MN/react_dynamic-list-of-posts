@@ -6,7 +6,7 @@ interface PostsListProps {
   posts: Post[];
 }
 
-export const PostList: FC<PostsListProps> = memo(({ posts }) => (
+const PostList: FC<PostsListProps> = memo(({ posts }) => (
   <div data-cy="PostsList">
     <p className="title">Posts:</p>
 
@@ -32,3 +32,5 @@ export const PostList: FC<PostsListProps> = memo(({ posts }) => (
 ));
 
 PostList.displayName = 'PostList';
+
+export { PostList };
