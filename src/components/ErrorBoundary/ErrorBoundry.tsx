@@ -11,8 +11,9 @@ interface State {
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
   }
+
+  state = { hasError: false };
 
   componentDidCatch(): void {
     this.setState({ hasError: true });

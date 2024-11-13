@@ -46,7 +46,9 @@ export const useCommentForm = (
     (event: ChangeEvent<HTMLInputElement>) => {
       setName(event.target.value);
 
-      nameError && setNameError('');
+      if (nameError) {
+        setNameError('');
+      }
     },
     [nameError],
   );
@@ -55,7 +57,9 @@ export const useCommentForm = (
     (event: ChangeEvent<HTMLInputElement>) => {
       setEmail(event.target.value);
 
-      emailError && setEmailError('');
+      if (emailError) {
+        setEmailError('');
+      }
     },
     [emailError],
   );
@@ -64,7 +68,9 @@ export const useCommentForm = (
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       setBody(event.target.value);
 
-      bodyError && setBodyError('');
+      if (bodyError) {
+        setBodyError('');
+      }
     },
     [bodyError],
   );

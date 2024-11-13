@@ -6,6 +6,7 @@ import { getCommentsByPostId } from '../api/posts';
 export const useComments = (postId: number) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState('');
 
   const fetchComments = () => {
     setLoading(true);
@@ -21,10 +22,12 @@ export const useComments = (postId: number) => {
         if (res.postId) {
           setComments(prevState => [...prevState, res]);
         } else {
-          throw res;
+          setError('Fetch comments with error');
         }
       })
-      .catch(error => console.log(error));
+      .catch((error: Error) => {
+        setError(error.message);
+      });
   };
 
   const handleDeleteComment = async (id: number) => {
@@ -34,10 +37,12 @@ export const useComments = (postId: number) => {
   };
 
   return {
+    isLoading,
+    isError,
+    comments,
+
     handleAddComment,
     handleDeleteComment,
-    comments,
     fetchComments,
-    isLoading,
   };
 };

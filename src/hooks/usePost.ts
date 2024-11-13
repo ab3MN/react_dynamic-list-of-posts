@@ -13,12 +13,14 @@ export const usePosts = (selectedUser: User | null) => {
       setLoadingPosts(true);
       getUserPosts(selectedUser.id)
         .then(res => {
-          Array.isArray(res)
-            ? setPosts(res)
-            : setPostsError('Fetch post with error');
+          if (Array.isArray(res)) {
+            setPosts(res);
+          } else {
+            setPostsError('Fetch post with error');
+          }
         })
-        .catch(() => {
-          setTimeout(() => setPostsError(null), 3000);
+        .catch((error: Error) => {
+          setPostsError(error.message);
         })
         .finally(() => setLoadingPosts(false));
     }
