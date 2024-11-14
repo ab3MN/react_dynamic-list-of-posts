@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useCallback,
   useMemo,
   useState,
 } from 'react';
@@ -56,11 +57,11 @@ export const PostsProvider = ({
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const { posts, postsError, isLoadingPosts } = usePosts(selectedUser);
 
-  const handleSelectUser = async (user: User) => {
+  const handleSelectUser = useCallback((user: User) => {
     setUserMenuOpen(false);
     setSelectedUser(user);
     setSelectedPost(null);
-  };
+  }, []);
 
   const store = useMemo(
     () => ({

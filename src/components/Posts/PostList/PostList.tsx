@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { PostListItem } from './PostListItem';
+import { PostItem } from '../PostItem/PostItem';
 import { Post } from '../../../types/Post';
 
 interface PostsListProps {
@@ -22,9 +22,7 @@ const PostList: FC<PostsListProps> = memo(({ posts }) => (
 
       <tbody>
         {posts.map(post => (
-          <tr data-cy="Post" key={post.id}>
-            <PostListItem post={post} />
-          </tr>
+          <PostItem post={post} key={post.id} />
         ))}
       </tbody>
     </table>

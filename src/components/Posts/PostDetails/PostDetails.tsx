@@ -4,6 +4,7 @@ import { Post } from '../../../types/Post';
 import { Loader } from '../../Loader';
 import { Comments } from '../../Comments/Comments';
 import { useComments } from '../../../hooks/useComments';
+import { ErrorNotification } from '../../ErrorNotification/ErrorNotification';
 
 interface PostDetailsProps {
   post: Post;
@@ -14,6 +15,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
     handleAddComment,
     handleDeleteComment,
     fetchComments,
+    error,
     comments,
     isLoading,
   } = useComments(post.id);
@@ -23,7 +25,7 @@ export const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
     fetchComments();
 
     return setFormOpen(false);
-  }, [post.id]);
+  }, [post.id, fetchComments]);
 
   const CommentsView = (
     <>
@@ -59,13 +61,11 @@ export const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
           <p data-cy="PostBody">{post.body}</p>
         </div>
 
-        <div className="block">
-          {isLoading && <Loader />}
-
-          {!isLoading && CommentsView}
-        </div>
+        <div className="block">{isLoading ? <Loader /> : CommentsView}</div>
 
         {isFormOpen && <NewCommentForm handleAddComment={handleAddComment} />}
+
+        {error && <ErrorNotification />}
       </div>
     </div>
   );

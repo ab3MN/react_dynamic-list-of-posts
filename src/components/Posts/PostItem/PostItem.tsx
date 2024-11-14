@@ -3,11 +3,11 @@ import cn from 'classnames';
 import { Post } from '../../../types/Post';
 import { PostsContext } from '../../../context/PostContext';
 
-interface PostListItemProps {
+interface PostItemProps {
   post: Post;
 }
 
-const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
+const PostItem: FC<PostItemProps> = memo(({ post }) => {
   const { selectedPost, setSelectedPost } = useContext(PostsContext);
 
   const handleSelectPost = (highlightedPost: Post) => {
@@ -20,7 +20,7 @@ const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
   };
 
   return (
-    <>
+    <tr data-cy="Post">
       <td data-cy="PostId">{post.id}</td>
 
       <td data-cy="PostTitle">{post.title}</td>
@@ -37,10 +37,10 @@ const PostListItem: FC<PostListItemProps> = memo(({ post }) => {
           {selectedPost?.id === post.id ? 'Close' : 'Open'}
         </button>
       </td>
-    </>
+    </tr>
   );
 });
 
-PostListItem.displayName = 'PostListItem';
+PostItem.displayName = 'PostItem';
 
-export { PostListItem };
+export { PostItem };

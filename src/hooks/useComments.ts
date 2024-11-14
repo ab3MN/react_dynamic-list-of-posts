@@ -1,20 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Comment } from '../types/Comment';
 import { addComment, deleteComment } from '../api/comments';
 import { getCommentsByPostId } from '../api/posts';
 
 export const useComments = (postId: number) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [isLoading, setLoading] = useState(false);
-  const [isError, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const fetchComments = () => {
-    setLoading(true);
+  const fetchComments = useCallback(() => {
+    setIsLoading(true);
 
     getCommentsByPostId(postId)
       .then(res => setComments(res))
-      .finally(() => setLoading(false));
-  };
+      .finally(() => setIsLoading(false));
+  }, [postId]);
 
   const handleAddComment = (comment: Omit<Comment, 'id'>) => {
     addComment(comment)
@@ -38,7 +38,7 @@ export const useComments = (postId: number) => {
 
   return {
     isLoading,
-    isError,
+    error,
     comments,
 
     handleAddComment,
