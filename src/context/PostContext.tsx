@@ -57,11 +57,14 @@ export const PostsProvider = ({
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const { posts, postsError, isLoadingPosts } = usePosts(selectedUser);
 
-  const handleSelectUser = useCallback((user: User) => {
-    setUserMenuOpen(false);
-    setSelectedUser(user);
-    setSelectedPost(null);
-  }, []);
+  const handleSelectUser = useCallback(
+    (user: User) => {
+      setUserMenuOpen(false);
+      setSelectedUser(user);
+      setSelectedPost(null);
+    },
+    [setSelectedUser, setUserMenuOpen],
+  );
 
   const store = useMemo(
     () => ({

@@ -25,8 +25,8 @@ export const useComments = (postId: number) => {
           setError('Fetch comments with error');
         }
       })
-      .catch((error: Error) => {
-        setError(error.message);
+      .catch((err: Error) => {
+        setError(err.message);
       });
   };
 
