@@ -3,7 +3,7 @@ import { Comment } from '../../../types/Comment';
 import { useCommentForm } from '../../../hooks/useCommentForm';
 
 interface NewCommentFormProps {
-  handleAddComment: (comment: Omit<Comment, 'id'>) => void;
+  handleAddComment: (comment: Omit<Comment, 'id'>) => Promise<void>;
 }
 export const NewCommentForm: React.FC<NewCommentFormProps> = ({
   handleAddComment,

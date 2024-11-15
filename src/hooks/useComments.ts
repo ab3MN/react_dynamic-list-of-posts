@@ -16,18 +16,22 @@ export const useComments = (postId: number) => {
       .finally(() => setIsLoading(false));
   }, [postId]);
 
-  const handleAddComment = (comment: Omit<Comment, 'id'>) => {
-    addComment(comment)
-      .then(res => {
-        if (res.postId) {
-          setComments(prevState => [...prevState, res]);
-        } else {
-          setError('Fetch comments with error');
-        }
-      })
-      .catch((err: Error) => {
+  const handleAddComment = async (
+    comment: Omit<Comment, 'id'>,
+  ): Promise<void> => {
+    try {
+      const res = await addComment(comment);
+
+      if (res.postId) {
+        setComments(prevState => [...prevState, res]);
+      } else {
+        setError('Fetch comments with error');
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
         setError(err.message);
-      });
+      }
+    }
   };
 
   const handleDeleteComment = async (id: number) => {

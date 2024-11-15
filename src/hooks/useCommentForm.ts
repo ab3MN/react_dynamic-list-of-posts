@@ -9,7 +9,7 @@ import { PostsContext } from '../context/PostContext';
 import { Comment } from '../types/Comment';
 
 export const useCommentForm = (
-  handleAddComment: (comment: Omit<Comment, 'id'>) => void,
+  handleAddComment: (comment: Omit<Comment, 'id'>) => Promise<void>,
 ) => {
   const { selectedPost } = useContext(PostsContext);
 
@@ -91,10 +91,10 @@ export const useCommentForm = (
       email,
       body,
       postId: selectedPost!.id,
+    }).then(() => {
+      setBody('');
+      setLoading(false);
     });
-
-    setBody('');
-    setLoading(false);
   };
 
   return {
