@@ -8,77 +8,66 @@ import {
 import { PostsContext } from '../context/PostContext';
 import { Comment } from '../types/Comment';
 
+const initialState = {
+  name: { value: '', error: '' },
+  email: { value: '', error: '' },
+  body: { value: '', error: '' },
+};
+
 export const useCommentForm = (
   handleAddComment: (comment: Omit<Comment, 'id'>) => Promise<void>,
 ) => {
   const { selectedPost } = useContext(PostsContext);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [body, setBody] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [bodyError, setBodyError] = useState('');
+  const [state, setState] = useState(initialState);
+
+  const setStateByInputName = (inputName = '', value = '', error = '') => {
+    setState(prevState => ({
+      ...prevState,
+      [inputName]: {
+        error,
+        value,
+      },
+    }));
+  };
+
   const [isLoading, setLoading] = useState(false);
 
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { value, name } = event.target;
+
+      setStateByInputName(name, value, '');
+    },
+    [state],
+  );
+
   const showErrors = () => {
-    if (!name) {
-      setNameError('Name is required');
+    const { name, email, body } = state;
+
+    if (!name.value) {
+      setStateByInputName('name', '', 'Name is required');
     }
-    if (!email) {
-      setEmailError('Email is required');
+
+    if (!email.value) {
+      setStateByInputName('email', '', 'Email is required');
     }
-    if (!body) {
-      setBodyError('Enter some text');
+
+    if (!body.value) {
+      setStateByInputName('body', '', 'Enter some text');
     }
   };
 
   const reset = () => {
-    setNameError('');
-    setEmailError('');
-    setBodyError('');
-    setName('');
-    setEmail('');
-    setBody('');
+    setState(initialState);
   };
 
-  const handleChangeName = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setName(event.target.value);
-
-      if (nameError) {
-        setNameError('');
-      }
-    },
-    [nameError],
-  );
-
-  const handleChangeEmail = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setEmail(event.target.value);
-
-      if (emailError) {
-        setEmailError('');
-      }
-    },
-    [emailError],
-  );
-
-  const handleChangeBody = useCallback(
-    (event: ChangeEvent<HTMLTextAreaElement>) => {
-      setBody(event.target.value);
-
-      if (bodyError) {
-        setBodyError('');
-      }
-    },
-    [bodyError],
-  );
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const { name, email, body } = state;
+
     event.preventDefault();
 
-    if (!(name && email && body)) {
+    if (!(name.value && email.value && body.value)) {
       showErrors();
 
       return;
@@ -86,31 +75,26 @@ export const useCommentForm = (
 
     setLoading(true);
 
-    handleAddComment({
-      name,
-      email,
-      body,
+    const comment = {
+      name: name.value,
+      email: email.value,
+      body: body.value,
       postId: selectedPost!.id,
-    }).then(() => {
-      setBody('');
+    };
+
+    handleAddComment(comment).then(() => {
+      setStateByInputName('body', '', '');
+
       setLoading(false);
     });
   };
 
   return {
-    name,
-    nameError,
-    email,
-    emailError,
-    body,
-    bodyError,
     isLoading,
+    state,
 
-    handleChangeName,
-    handleChangeEmail,
-    handleChangeBody,
+    handleChange,
     reset,
-    showErrors,
     handleSubmit,
   };
 };

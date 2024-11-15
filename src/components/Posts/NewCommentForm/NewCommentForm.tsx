@@ -8,21 +8,8 @@ interface NewCommentFormProps {
 export const NewCommentForm: React.FC<NewCommentFormProps> = ({
   handleAddComment,
 }) => {
-  const {
-    name,
-    nameError,
-    email,
-    emailError,
-    body,
-    bodyError,
-    isLoading,
-
-    handleChangeName,
-    handleChangeEmail,
-    handleChangeBody,
-    reset,
-    handleSubmit,
-  } = useCommentForm(handleAddComment);
+  const { isLoading, state, reset, handleSubmit, handleChange } =
+    useCommentForm(handleAddComment);
 
   return (
     <form data-cy="NewCommentForm" onSubmit={handleSubmit}>
@@ -35,18 +22,18 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({
           <input
             type="text"
             name="name"
-            value={name}
+            value={state.name.value}
+            onChange={handleChange}
             id="comment-author-name"
             placeholder="Name Surname"
-            className={cn('input', { 'is-danger': nameError })}
-            onChange={handleChangeName}
+            className={cn('input', { 'is-danger': state.name.error })}
           />
 
           <span className="icon is-small is-left">
             <i className="fas fa-user" />
           </span>
 
-          {nameError && (
+          {state.name.error && (
             <span
               className="icon is-small is-right has-text-danger"
               data-cy="ErrorIcon"
@@ -56,9 +43,9 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({
           )}
         </div>
 
-        {nameError && (
+        {state.name.error && (
           <p className="help is-danger" data-cy="ErrorMessage">
-            {nameError}
+            {state.name.error}
           </p>
         )}
       </div>
@@ -72,18 +59,18 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({
           <input
             type="text"
             name="email"
-            value={email}
+            value={state.email.value}
+            onChange={handleChange}
             id="comment-author-email"
             placeholder="email@test.com"
-            className={cn('input', { 'is-danger': emailError })}
-            onChange={handleChangeEmail}
+            className={cn('input', { 'is-danger': state.email.error })}
           />
 
           <span className="icon is-small is-left">
             <i className="fas fa-envelope" />
           </span>
 
-          {emailError && (
+          {state.email.error && (
             <span
               className="icon is-small is-right has-text-danger"
               data-cy="ErrorIcon"
@@ -93,9 +80,9 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({
           )}
         </div>
 
-        {emailError && (
+        {state.email.error && (
           <p className="help is-danger" data-cy="ErrorMessage">
-            {emailError}
+            {state.email.error}
           </p>
         )}
       </div>
@@ -109,16 +96,16 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({
           <textarea
             id="comment-body"
             name="body"
-            value={body}
+            value={state.body.value}
+            onChange={handleChange}
             placeholder="Type comment here"
-            className={cn('textarea', { 'is-danger': bodyError })}
-            onChange={handleChangeBody}
+            className={cn('textarea', { 'is-danger': state.body.error })}
           />
         </div>
 
-        {bodyError && (
+        {state.body.error && (
           <p className="help is-danger" data-cy="ErrorMessage">
-            {bodyError}
+            {state.body.error}
           </p>
         )}
       </div>
